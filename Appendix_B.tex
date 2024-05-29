@@ -1,0 +1,45 @@
+
+% Appendix B File
+
+\refstepcounter{chapter}%
+\chapter*{\thechapter \quad Generalized Cubic Spline Interpolation Code (Mhaskar and Pai)}
+\label{appendixB}
+
+\section{Mathematica Code for $S(MP, P_{n})$}
+\begin{lstlisting}
+xval = {0, 0.001, 0.01, 0.1, 2}         
+F[s_]:= s^4*Cos[s]
+yval = F[xval]
+yvalprime = F'[xval]
+yvaldoubprime = F''[xval]      
+
+numparts = Length[xval]  
+n = numparts-1                 
+
+Do[{xx[k-1]=xval[[k]],               
+yy[k-1]=yval[[k]],
+yyprime[k-1]=yvalprime[[k]],
+yydoubprime[k-1]=yvaldoubprime[[k]]},
+{k,1,numparts}]
+
+Table[{xx[k],yy[k]},{k, 0, n}];
+Unknowns=Table[{a[k],b[k],c[k],d[k]},{k,0,n-1}] // Flatten           
+
+Do[P[k][x_]= a[k]*(x)^3+b[k]*(x)^2+c[k]*(x)+d[k], {k,0,n-1}]             
+
+Do[EquationA[k] = P[k][xx[k]] == yy[k] , {k,0,n-1}]
+TableA=Table[EquationA[k],{k,0,n-1}]
+
+Do[EquationB[k] =  P[k][xx[k+1]] == yy[k+1] , {k, 0, n-1}]  
+TableB=Table[EquationB[k],{k,0,n-1}] 
+
+Do[EquationC[k] = P[k]'[xx[k]] == yyprime[k] , {k,0,n-1}]
+TableC=Table[EquationC[k],{k,0,n-1}]
+
+Do[EquationD[k] =  P[k]'[xx[k+1]] == yyprime[k+1] , {k, 0, n-1}]  
+TableD=Table[EquationD[k],{k,0,n-1}] 
+
+AllEquationsToSolve=Join[TableA,TableB,TableC,TableD]
+
+Solve[AllEquationsToSolve, Unknowns] 
+\end{lstlisting}

@@ -1,0 +1,48 @@
+
+% Chapter 3 File
+
+\chapter{Preliminaries and Background}
+\label{chapter2}
+\thispagestyle{empty}
+
+\section{Background}
+Cubic spline interpolation is a type of numerical mathematical method in which a function's domain is divided into pieces by a partition and a polynomial is fitted onto each piece. These polynomials are chosen to have a maximum degree of 3. Interpolation refers to the idea that the cubic spline function (also known as the \emph{interpolant}) passes through each of the points of the graph of the function being approximated for the $x$-values in the partition. The advantage of this type of approximation is that these types of problems require a limited amount of information. For example, for the most basic cubic spline on a partition of size $n$ we only need $n+1$ data points rather than all of the values of the function. In addition, it is necessary that boundary conditions are placed on the function's derivative if you would like to guarantee the smoothness of the resulting spline function. This is evident by the definition of a cubic spline that Erwin Kreyszig provides in \emph{Introductory Functional Analysis with Applications} in which the values of each derivative must agree on the chosen partition \cite[pg.~358]{key4}. An interesting property of spline approximations is that while they are defined piece-wise, their approximation together within the given interval $[a,b]$ can ultimately fail to be accurate if the function being approximated has too many points of fluctuation or oscillation \cite[pg.~28]{key8}. In extreme cases, it may be more appropriate to use a non-cubic spline function, such as a rational function, which may be more accurate when approximating trigonometric functions. This problem may arise even within the chosen interval of interpolation, as specified in M. J. D. Powell's text on approximation theory \cite[pg.~28]{key8}.
+\\\\
+There are three popular methods of determining how accurate a cubic spline approximation is, namely with the $L^1$, $L^2$, and the $L^\infty$ norms. An important theorem in the literature illustrates that if the function $f$ is infinitely differentiable, or in simpler terms a \emph{smooth function}, then there is a spline interpolant that is a second-order approximation of $f$ with respect to the $L^2$ and $L^\infty$ norms respectively \cite[pg.~19]{key9}. This theorem is especially helpful since it establishes useful norms in constructing cubic splines and conducting the error analysis of cubic spline functions. Gunther N\"{u}rnberger in his work \emph{Approximation by Spline Functions} says that the best $L^{2}$ spline approximations are always unique and can be solved via a system of linear equations in finite-dimensional spaces \cite[pg.~76]{key6}.
+\section{Introduction to Metric Spaces $\&$ Normed Spaces}
+\emph{Definition 1.1.} Let S be a nonempty set and let $d$ be a real-valued function $d:S \times S \rightarrow \mathbb{R} $ such that the following axioms apply:\newline
+$(i)\ d(x,y) \geq 0 \ \forall x,y \in \mathbb{R}$\\
+$(ii)\ d(x,y)=0  \iff \ x=y$\\
+$(iii)\ d(x,y)=d(y,x)$\\
+$(iv)\ d(x,z)=d(x,y)+d(y,z)$\newline\\
+Then we say that $(S,d)$ is a \emph{metric space} \cite{key7}. It is interesting to note that the real-valued function $d$ is called a metric since it measures the non-negative distance between two points in $S$. We now move on to the definition of a complete metric space, a norm \cite[pg. 438]{key3}, and a normed space before proceeding with the definition of a Banach space.
+\\\\
+\emph{Definition 1.2.} A \emph{norm} is a function $\|\cdot\|:\mathbb{R}^{n} \rightarrow \mathbb{R}$ that obeys the following properties:\newline
+$(i)\ \|\textbf{x}\| \geq 0 \ \forall \textbf{x} \in \mathbb{R}^{n}$\\
+$(ii)\ \|\textbf{x}\|=0  \iff \ \textbf{x}=0$\\
+$(iii)\ \|\alpha\textbf{x}\| = \|\alpha\|\|\textbf{x}\| \ \forall \alpha \in \mathbb{R} \ \text{and} \ \textbf{x} \in \mathbb{R}^{n}$\\
+$(iv)\ \|\textbf{x}+\textbf{y}\| \leq \|\textbf{x}\|+\|\textbf{y}\| \ \forall \textbf{x}, \textbf{y} \in \mathbb{R}^{n}$\newline
+\\\\
+\emph{Example.} A normed space $(S,\|\cdot\|)$ is a metric space with the metric $d(x,y)=\|x-y\|$. \newline
+Furthermore, a metric space $(S,d)$ is \emph{complete} if every Cauchy sequence converges in the space. A \emph{Banach space} is a complete normed vector space.
+\\\\
+ Here we will mainly focus on Banach spaces that contain the continuous functions $C[a,b]$. This leads us to our first theorem, which tells us an important property of the space $C[a,b]$.
+\\\\
+\emph{Theorem 1.1.} Let $[a,b] \subset \mathbb{R}.$ The function space $C[a,b]$ is complete under the norm $\displaystyle{\|f-g\|_{\infty}=\max_{t \in [a,b]} |f(t)-g(t)|}$.
+\\\\
+\emph{Proof.} \ Let \ $\epsilon > 0$. Suppose $(x_{m})$ is any arbitrary Cauchy sequence in $C[a,b]$. Now by definition, there exists an $N$ in $\mathbb{N}$ such that for $m,n > N$,\\
+$\displaystyle{d(x_{m},x_{n})= \max_{t \in [a,b]} |x_{m}(t)-x_{n}(t)| < \epsilon}$. So for any fixed $t_o \in [a,b]$, we have
+$|x_{m}(t_o)-x_{n}(t_o)| < \epsilon \hspace{0.25cm} \text{for} \ m,n > N$.
+The sequence ${x_n(t_o)}$ is hence a Cauchy sequence in $\mathbb{R}$ and so we say it converges to the number $x(t_o)$. Note that this convergence applies as $m \rightarrow \infty$. So for each $t_o$, $|x_m(t_o)-x(t_o)| < \epsilon$ for $m > N$. Now we have
+$\displaystyle{\max_{t \in [a,b]} |x_{m}(t)-x(t)| < \epsilon} \hspace{0.25cm} \text{for} \ m > N$.
+Consequently, we have shown that the Cauchy sequence ${x_m}$ converges to the function $x$. We would then need to show that the function $x$ is continuous, please see \cite{key4} for this part of the proof. Once we show that, we then conclude that the function space $C[a,b]$ is complete. $\blacksquare$\\\\
+\section{$L^p$ Norms}
+To properly analyze how well cubic spline functions perform in approximating functions in normed spaces, we must introduce the $L^2$ and $L^{\infty}$ norms which will measure the error in between the cubic splines and the functions they are approximating.\\\\
+\emph{Definition 2.1.} Let $f(x)$ be a real-valued, continuous function defined on the interval $[a,b]$. Then the $L^2$ norm of $f$ is defined as \newline
+\\
+\[\|f\|_2 = \left(\int_{a}^{b}|f(x)|^2\mathrm{d}x\right)^{\frac{1}{2}}\]\newline
+\\
+We can see that the $L^2$ norm is well-defined for continuous functions since $|f(x)|^2$ is also continuous in $[a,b]$, so by \cite[pg.~155]{key7} the integral exists.\\\\
+\emph{Definition 2.2.} Let $f(x)$ be a real-valued, continuous function defined on the interval $[a,b]$. Then the $L^{\infty}$ norm of $f$ is defined as \newline\\
+\[\|f\|_{\infty} = \max_{t \in [a,b]} |f(x)|\]\\
+Note that this norm is also well-defined on continuous functions since $f(x)$ achieves its maximum on the interval $[a,b]$ by \cite[pg.~106]{key7}. More information and proofs about these norms are provided by Kreyszig \cite[pg.~61]{key4}.

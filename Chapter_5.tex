@@ -1,0 +1,28 @@
+
+% Chapter 4 File
+
+\chapter{Analysis}
+\label{chapter5}
+\thispagestyle{empty}
+
+In this section, we provide an analytical dissection of the data we obtained after calculating each test function's respective cubic spline, norm, and error. We used the Excel spreadsheet's sorting and statistical functionalities, the data had arisen to some interesting observations that we believe may support our assertions regarding how well each type of cubic spline approximated the functions. For the curious reader, we have included tables of the cubic spline estimates and their relative error values in Appendices C, D, and E.
+
+\section{Special Observations and Algorithm Analysis}
+One of the key observations made from the collected data about both cubic spline interpolation algorithms for $S(K, P_{n})$ and $S(MP, P_{n})$ is that they can sometimes produce identical cubic spline approximations under the same partition even though both algorithms have different interpolation conditions. For example, recall equations 3.2 and 3.4 from chapter 3. It is obvious that the Kreyszig algorithm includes the boundary condition that the first and second derivatives of each piece of the spline must interpolate with each other at each of the intermediate points, expressed symbolically as\\\\
+$p_{1}'(1) = p_{2}'(1)$ \text{and}
+$p_{1}''(1) = p_{2}''(1)$\\\\
+which is directly given by the $S(K, P_{n})$ example. On the other hand, the Mhaskar-Pai algorithm uses only the first derivative in its interpolation conditions and avoids matching the first derivatives of each of the spline pieces with each other as done in Kreyszig's algorithm. In appendix F, we provide a table of cases in which both algorithms produce the same spline. From the data, we note that the function $x^4$ had the same cubic spline on the partition $\{0,0.5,1,1.5,2\}$.
+
+\section{Balanced Partition Analysis}
+Our first group of observations from the data is in regard to the best and worst function approximation errors. The first observation that the data supports is that for the balanced partition $\{0, 0.5, 1, 1.5, 2\}$, the functions $\cos(x)$, $\ln(x+1)$, and $x^4$ had the least error in both the Kreyszig and Mhaskar-Pai cubic splines. Since these approximations both had the least relative $L^2$ and $L^{\infty}$ errors, it is clear that the splines approximated their original functions very well in these norms. 
+\\\\
+On the other hand, we observe that there are approximations that did not perform so well on the same balanced partition $\{0, 0.5, 1, 1.5, 2\}$ for the Kreyszig splines. For example, the sorting procedure we conducted verified that the functions $x^2\cos(x)$, $\sin(x)$, and $x^4\cos(x)$ were approximated poorly since they have the greatest $L^2$ and $L^{\infty}$ relative errors out of the other functions tested. We currently do not have a valid mathematical explanation for this phenomenon as more research is needed in order to arrive at a mathematically appropriate conclusion. The Mhaskar-Pai splines did not approximate the functions $x^3\sin(x)$, $x^2\cos(x)$, and $x^4\cos(x)$ well either. It is interesting to note here that the data supports the conjecture that these higher-power polynomial-trigonometric functions have poor approximations in these norms.
+
+\section{Unbalanced Partition Analysis}
+We now shift our focus to the unbalanced partition $\{0, 0.001, 0.01, 0.1, 2\}$. We are particularly interested in testing our cubic spline approximations using this partition choice since it does not divide the interval into equidistant sub-intervals. Once again after sorting the data, we came to the conclusion that the functions $x^4$, $\ln(x+1)$, and $\cos(x)$ were approximated very well in both the Kreyszig and Mhaskar-Pai spline algorithms. The relative $L^2$ and $L^{\infty}$ errors were about $1 \times 10^{1}$ greater than their balanced partition relative errors.
+\\\\
+In the Kreyszig spline test cases, the worst performing approximations were given from the functions $x^3\sin(x)$, $x^3\cos(x)$, and $x^4\cos(x)$. The only notable difference was the larger relative errors of the approximations and the absence of $\sin(x)$. However, we also noticed that there was a decrease in approximation accuracy with the Mhaskar-Pai splines in the unbalanced partition. For example, the functions that did not have particularly good approximations were $x^4\sin(x)$, $x^4\cos(x)$, and $x^3\cos(x)$, which are once again higher-power polynomial-trigonometric functions that have greater relative errors in the $L^2$ and $L^{\infty}$ norms. 
+
+\section{Sharpness of Error Bounds}
+We now introduce the other measure of approximation accuracy, the $L^2$ and $L^{\infty}$ error bounds that come from using theorems 3.4 and 3.5. An error bound is considered to be \emph{sharp} if the bound $b$ is impossible to improve.
+For example, in theorem 3.5 Mhaskar-Pai says that the error in the spline approximation of the function $\sin(x)$ on the partition $\{0,0.5,1,1.5,2\}$ is at worst 0.01953125. The actual error is 0.000167649. Since $0.01953125-0.000167649 = 0.019363601$ is the smallest difference between one of our functions' $L^{\infty}$ error on $\{0,0.5,1,1.5,2\}$ and the maximum error from theorem 3.5, we say that $\sin(x)$ has the sharpest $L^{\infty}$ error bound on $\{0,0.5,1,1.5,2\}$. Using this definition of sharpness, we noticed that $\sin(x)$, $\cos(x)$, and $\ln(x+1)$ had the sharpest $L^2$ and $L^{\infty}$ error bounds on the partition $\{0,0.5,1,1.5,2\}$. We have provided the data for these $L^2$ and $L^{\infty}$ error bounds in appendices C and D.

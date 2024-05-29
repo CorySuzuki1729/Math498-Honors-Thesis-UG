@@ -1,0 +1,50 @@
+
+% Appendix A File
+
+\refstepcounter{chapter}%
+\chapter*{\thechapter \quad Generalized Cubic Spline Interpolation Code (Kreyszig)}
+\label{appendixA}
+
+\section{Mathematica Code for $S(K, P_{n})$}
+\begin{lstlisting}
+xval = {0, 0.5, 2}         
+F[s_]:= Sin[s]        
+yval = F[xval]
+yvalprime = F'[xval]
+yvaldoubprime = F''[xval]      
+
+numparts = Length[xval]
+n = numparts-1                 
+
+Do[{xx[k-1]=xval[[k]],               
+yy[k-1]=yval[[k]],
+yyprime[k-1]=yvalprime[[k]],
+yydoubprime[k-1]=yvaldoubprime[[k]]},
+{k,1,numparts}]
+
+Table[{xx[k],yy[k]},{k, 0, n}];
+Unknowns=Table[{a[k],b[k],c[k],d[k]},{k,0,n-1}] // Flatten           
+
+Do[P[k][x_]= a[k]*(x)^3+b[k]*(x)^2+c[k]*(x)+d[k], {k,0,n-1}]
+
+Do[EquationA[k] = P[k][xx[k]] == yy[k] , {k,0,n-1}]
+TableA=Table[EquationA[k],{k,0,n-1}]
+
+Do[EquationB[k] =  P[k][xx[k+1]] == yy[k+1] , {k, 0, n-1}]  
+TableB=Table[EquationB[k],{k,0,n-1}]
+
+EquationC = { P[0]'[xx[0]]== yyprime[0]}
+EquationD = {P[n-1]'[xx[n]]== yyprime[n]}
+
+Do[EquationE[k] =  P[k-1]'[xx[k]] == P[k]'[xx[k]] , {k,1,n-1}]
+TableE=Table[EquationE[k],{k,1,n-1}]
+
+Do[EquationF[k] =  P[k-1]''[xx[k]] == P[k]''[xx[k]] , {k,1,n-1}]
+TableF=Table[EquationF[k],{k,1,n-1}]
+
+AllEquationsToSolve=Join[TableA,TableB,EquationC,EquationD,TableE,TableF]
+
+Solve[AllEquationsToSolve, Unknowns] 
+\end{lstlisting}
+
+Note that the function definition and partition points are the only lines of the code that are updated for each iteration. For example, one can run this code to find the coefficients of the cubic spline that approximates $f(x)=x^4$ on $[0,2]$ with the following partition points $\{0,1,2\}$.
